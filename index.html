@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Kaithyn❤️😭 i love u😭.</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@400;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r155/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    /* Global Styles */
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Satoshi', sans-serif;
+      background: #0c0a09;
+      color: #f0f0f0;
+      overflow-x: hidden;
+      height: 100%;
+    }
+
+    /* Aurora Background Effect */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background:
+        radial-gradient(circle at 20% 30%, hsla(333,70%,55%,0.4), transparent),
+        radial-gradient(circle at 80% 50%, hsla(282,82%,54%,0.3), transparent),
+        radial-gradient(circle at 50% 70%, hsla(210,89%,60%,0.3), transparent),
+        radial-gradient(circle at 60% 20%, hsla(35,90%,60%,0.3), transparent);
+      background-size: 200% 200%;
+      animation: auroraShift 15s ease-in-out infinite alternate;
+      z-index: -5;
+    }
+
+    @keyframes auroraShift {
+      0% { background-position: 0% 0%; }
+      100% { background-position: 100% 100%; }
+    }
+
+    h1, h2 {
+      font-family: 'Playfair Display', serif;
+      background: linear-gradient(90deg, #ff8dd3, #fff0f5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+    }
+
+    /* Glass Effect Cards */
+    .glass-card {
+      background: rgba(20, 20, 20, 0.6);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1.5rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.8);
+      padding: 2.5rem;
+      max-width: 90%;
+      width: 500px;
+      margin: 10vh auto;
+      text-align: center;
+    }
+
+    /* Action Buttons */
+    .btn {
+      background: linear-gradient(90deg, #ff5aad, #ff0000);
+      color: #fff;
+      font-weight: bold;
+      padding: 0.8rem 2.5rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      margin-top: 2rem;
+      box-shadow: 0 0 20px rgba(255,0,100,0.4);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      display: inline-block;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(255,0,100,0.6);
+    }
+
+    /* Progress Indicator */
+    .progress-container {
+      position: fixed;
+      top: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 6px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 999px;
+      z-index: 100;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 20%;
+      background: linear-gradient(90deg,#ff5aad,#ff0000);
+      border-radius: 999px;
+      transition: width 0.5s ease;
+    }
+
+    .step {
+      display: none;
+      opacity: 0;
+    }
+
+    /* Bento Grid for Memories */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      text-align: left;
+      margin-top: 1.5rem;
+    }
+    .bento-item {
+      background: rgba(255,255,255,0.05);
+      padding: 1rem;
+      border-radius: 1rem;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .bento-large { grid-column: span 2; }
+
+    /* Polaroid Styling */
+    .polaroid {
+      width: 260px;
+      background: #fff;
+      padding: 0.75rem;
+      padding-bottom: 2.5rem;
+      border-radius: 0.25rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      transform: rotate(-3deg);
+      margin: 2rem auto;
+      perspective: 1000px;
+      transition: transform 0.1s ease-out;
+    }
+    .polaroid img { 
+      width: 100%; 
+      height: 240px; 
+      object-fit: cover; 
+      border-radius: 2px;
+    }
+    .polaroid-caption {
+      font-family: 'Playfair Display', serif;
+      color: #222;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    canvas#heartsCanvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -4;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <canvas id="heartsCanvas"></canvas>
+
+  <div class="step" id="step1" style="display: block; opacity: 1;">
+    <div class="glass-card">
+      <h1 class="text-4xl mb-4">Hey Kaithyn… ❤️</h1>
+      <p class="text-lg leading-relaxed">I love you 😭❤️ I know you’ve spent birthdays alone before 😭 But not this time 😭❤️ This time, you have <strong>me</strong> 🫂 And I’m not letting you celebrate alone ever again 😭❤️✨</p>
+      <button class="btn" onclick="nextStep(2)">Come with me 🥺❤️</button>
+    </div>
+  </div>
+
+  <div class="step" id="step2">
+    <div class="glass-card">
+      <h1 class="text-3xl mb-4">Happy Birthday, Kaithyn 🎉❤️</h1>
+      <p>I love you 😭❤️❤️😍 More than words, anything 😭 Today is about <strong>you</strong>, your heart, your journey, your strength ✨ You deserve to be celebrated loudly 🎂❤️😭</p>
+      <button class="btn" onclick="nextStep(3)">There’s something I want you to know…</button>
+    </div>
+  </div>
+
+  <div class="step" id="step3">
+    <div class="glass-card">
+      <h2 class="text-2xl mb-4">A Few Things I Adore About You</h2>
+      <div class="bento-grid">
+        <div class="bento-item bento-large">
+          <h3 class="font-bold text-pink-300">✨ Your Strength</h3>
+          <p class="text-sm">You showed me how to be brave even in the lowest times 😭❤️ Your strength inspires me ngl😭❤️</p>
+        </div>
+        <div class="bento-item">
+          <h3 class="font-bold text-pink-300">❤️ Your Heart</h3>
+          <p class="text-xs">When I first saw you, you looked kinda mean 😭😭 But I was shocked when i get to know you, your heart is so kind❤️ you have the kindest heart 😭</p>
+        </div>
+        <div class="bento-item bento-large">
+          <h3 class="font-bold text-pink-300">✨ Your Future</h3>
+          <p class="text-sm">In 10 years, I wanna see you in a magazine saying the <strong>first UK hairstylist to ever do it Kaithyn u gonna be big one day😭❤️✨</strong></p>
+        </div>
+      </div>
+      <button class="btn" onclick="nextStep(4)">There’s more…</button>
+    </div>
+  </div>
+
+  <div class="step" id="step4">
+    <div class="glass-card">
+      <h2 class="text-2xl mb-2">That one moment… 🖤</h2>
+      <div class="polaroid" id="polaroid">
+        <img src="https://i.postimg.cc/wj31WW9J/F28D4BF1-AAEB-416A-A509-AB6CFAC5C81C.png" alt="Memory">
+        <div class="polaroid-caption">i know photo is badd😭😭 but Ai only able to make😭this😭❤️
+ilook so badd😭😭</div>
+      </div>
+      <p class="text-sm mt-4">I always smile when I get your texts 😭❤️ "baby" makes me so happy and I wanna hug you so bad😭😭🥰</p>
+      <button class="btn" onclick="nextStep(5)">One last thing…</button>
+    </div>
+  </div>
+
+  <div class="step" id="step5">
+    <div class="glass-card">
+      <h2 class="text-2xl mb-4">My wish for you 🎂❤️</h2>
+      <p>I know life has been tough 😭 But you made it! You’re 16 now 😭✨ My rebellious child 😎❤️ May this year bring you everything you deserve, all the love in this world!</p>
+      <button class="btn" id="celebrateBtn">Celebrate 🎉❤️</button>
+      <div id="finalText" style="margin-top:2rem; opacity:0; display:none;">
+        <h1 class="text-3xl">Happy Birthday, Kaithyn ❤️😭</h1>
+        <p class="mt-4 italic">I’m so proud of you 🫶<br>Never forget you’re special ✨ and you deserve all the love in this world <br>I love you mommy 😭❤️</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentStep = 1;
+    const totalSteps = 5;
+
+    function nextStep(step) {
+      gsap.to(`#step${currentStep}`, {
+        opacity: 0, 
+        scale: 0.9, 
+        duration: 0.4, 
+        onComplete: () => {
+          document.getElementById(`step${currentStep}`).style.display = 'none';
+          currentStep = step;
+          const nextEl = document.getElementById(`step${currentStep}`);
+          nextEl.style.display = 'block';
+          gsap.fromTo(nextEl, 
+            { opacity: 0, scale: 0.9 }, 
+            { opacity: 1, scale: 1, duration: 0.5 }
+          );
+          document.getElementById('progressBar').style.width = `${(currentStep / totalSteps) * 100}%`;
+        }
+      });
+    }
+
+    // Polaroid 3D hover effect
+    const polaroid = document.getElementById('polaroid');
+    document.addEventListener('mousemove', (e) => {
+      if(currentStep === 4) {
+        const x = (window.innerWidth / 2 - e.pageX) / 25;
+        const y = (window.innerHeight / 2 - e.pageY) / 25;
+        polaroid.style.transform = `rotateY(${x}deg) rotateX(${y}deg) rotateZ(-3deg)`;
+      }
+    });
+
+    // Confetti Celebration
+    document.getElementById('celebrateBtn').addEventListener('click', () => {
+      document.getElementById('celebrateBtn').style.display = 'none';
+      const final = document.getElementById('finalText');
+      final.style.display = 'block';
+      gsap.to(final, { opacity: 1, y: -10, duration: 1 });
+
+      const end = Date.now() + 5000;
+      (function frame() {
+        confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff8dd3', '#ff0000'] });
+        confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff8dd3', '#ff0000'] });
+        if (Date.now() < end) requestAnimationFrame(frame);
+      }());
+    });
+
+    // Three.js Background Particles
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('heartsCanvas'), alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    const particles = [];
+    const geo = new THREE.SphereGeometry(0.08, 8, 8);
+    for(let i=0; i<40; i++) {
+      const mat = new THREE.MeshBasicMaterial({ color: 0xff4d94, transparent: true, opacity: 0.5 });
+      const sphere = new THREE.Mesh(geo, mat);
+      sphere.position.set((Math.random()-0.5)*10, (Math.random()-0.5)*10, (Math.random()-0.5)*10);
+      particles.push(sphere);
+      scene.add(sphere);
+    }
+    camera.position.z = 5;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      particles.forEach(p => {
+        p.position.y += 0.007;
+        if(p.position.y > 5) p.position.y = -5;
+      });
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>
